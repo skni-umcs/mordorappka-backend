@@ -1,0 +1,312 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: autor
+      changes:
+
+        - createTable:
+            tableName: faculties
+            columns:
+              - column:
+                  name: faculty_id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: faculty_name
+                  type: varchar(300)
+                  constraints:
+                    nullable: false
+
+        - createTable:
+            tableName: periods
+            columns:
+              - column:
+                  name: period_id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: winter_term
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: academic_year
+                  type: varchar(9)
+                  constraints:
+                    nullable: false
+            tableConstraints:
+              - checkConstraint:
+                  constraintName: chk_academic_year_format
+                  checkConstraint: "academic_year ~ '2[0-9]{3}/[0-9]{4}'"
+
+        - createTable:
+            tableName: rooms
+            columns:
+              - column:
+                  name: room_id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: room_number
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: faculty_id
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: room_address
+                  type: varchar(255)
+              - column:
+                  name: room_capacity
+                  type: integer
+            tableConstraints:
+              - checkConstraint:
+                  constraintName: chk_room_capacity_positive
+                  checkConstraint: room_capacity > 0
+
+        - addForeignKeyConstraint:
+            baseTableName: rooms
+            baseColumnNames: faculty_id
+            referencedTableName: faculties
+            referencedColumnNames: faculty_id
+            constraintName: fk_rooms_faculty
+
+        - createTable:
+            tableName: majors
+            columns:
+              - column:
+                  name: major_id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: major_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: major_degree
+                  type: varchar(100)
+              - column:
+                  name: duration_in_sems
+                  type: integer
+              - column:
+                  name: faculty_id
+                  type: integer
+              - column:
+                  name: active
+                  type: boolean
+                  constraints:
+                    nullable: false
+            tableConstraints:
+              - checkConstraint:
+                  constraintName: chk_duration_positive
+                  checkConstraint: duration_in_sems > 0
+
+        - addForeignKeyConstraint:
+            baseTableName: majors
+            baseColumnNames: faculty_id
+            referencedTableName: faculties
+            referencedColumnNames: faculty_id
+            constraintName: fk_majors_faculty
+
+        - createTable:
+            tableName: term_groups
+            columns:
+              - column:
+                  name: term_group_id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: year
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: major_id
+                  type: integer
+              - column:
+                  name: period_id
+                  type: integer
+            tableConstraints:
+              - checkConstraint:
+                  constraintName: chk_term_group_year
+                  checkConstraint: "year BETWEEN 1 AND 7"
+
+        - addForeignKeyConstraint:
+            baseTableName: term_groups
+            baseColumnNames: major_id
+            referencedTableName: majors
+            referencedColumnNames: major_id
+            constraintName: fk_term_groups_major
+
+        - addForeignKeyConstraint:
+            baseTableName: term_groups
+            baseColumnNames: period_id
+            referencedTableName: periods
+            referencedColumnNames: period_id
+            constraintName: fk_term_groups_period
+
+        - createTable:
+            tableName: teachers
+            columns:
+              - column:
+                  name: teacher_id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: teacher_name
+                  type: varchar(300)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: teacher_degree
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: faculty_id
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: active
+                  type: boolean
+
+        - addForeignKeyConstraint:
+            baseTableName: teachers
+            baseColumnNames: faculty_id
+            referencedTableName: faculties
+            referencedColumnNames: faculty_id
+            constraintName: fk_teachers_faculty
+
+        - createTable:
+            tableName: subjects
+            columns:
+              - column:
+                  name: subject_id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: term_group_id
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: subject_name
+                  type: varchar(400)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: period_id
+                  type: integer
+
+        - addForeignKeyConstraint:
+            baseTableName: subjects
+            baseColumnNames: term_group_id
+            referencedTableName: term_groups
+            referencedColumnNames: term_group_id
+            constraintName: fk_subjects_term_group
+
+        - addForeignKeyConstraint:
+            baseTableName: subjects
+            baseColumnNames: period_id
+            referencedTableName: periods
+            referencedColumnNames: period_id
+            constraintName: fk_subjects_period
+
+        - createTable:
+            tableName: classes
+            columns:
+              - column:
+                  name: class_id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: class_type
+                  type: varchar(100)
+              - column:
+                  name: subject_id
+                  type: integer
+              - column:
+                  name: group_id
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: teacher_id
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: start_time
+                  type: time
+                  constraints:
+                    nullable: false
+              - column:
+                  name: end_time
+                  type: time
+                  constraints:
+                    nullable: false
+              - column:
+                  name: break_duration
+                  type: interval
+                  constraints:
+                    nullable: false
+              - column:
+                  name: weekday
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: room_id
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: period_id
+                  type: integer
+                  constraints:
+                    nullable: false
+            tableConstraints:
+              - checkConstraint:
+                  constraintName: chk_weekday
+                  checkConstraint: "weekday BETWEEN 0 AND 6"
+
+        - addForeignKeyConstraint:
+            baseTableName: classes
+            baseColumnNames: subject_id
+            referencedTableName: subjects
+            referencedColumnNames: subject_id
+            constraintName: fk_classes_subject
+
+        - addForeignKeyConstraint:
+            baseTableName: classes
+            baseColumnNames: teacher_id
+            referencedTableName: teachers
+            referencedColumnNames: teacher_id
+            constraintName: fk_classes_teacher
+
+        - addForeignKeyConstraint:
+            baseTableName: classes
+            baseColumnNames: room_id
+            referencedTableName: rooms
+            referencedColumnNames: room_id
+            constraintName: fk_classes_room
+
+        - addForeignKeyConstraint:
+            baseTableName: classes
+            baseColumnNames: period_id
+            referencedTableName: periods
+            referencedColumnNames: period_id
+            constraintName: fk_classes_period
