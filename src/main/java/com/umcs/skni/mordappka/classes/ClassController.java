@@ -11,12 +11,12 @@ import java.util.List;
 
 
 @RequiredArgsConstructor
-@RestController("class")
+@RestController("/class")
 public class ClassController {
 
     private final ClassService classService;
 
-    @GetMapping("/year/")
+    @GetMapping("/year")
     public ResponseEntity<List<ClassDTO>> hello(@RequestParam Long id) {
         return ResponseEntity.ok(classService.getClassesByYearId(id));
     }

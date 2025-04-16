@@ -54,5 +54,8 @@ public class ClassEntity {
     @ManyToOne
     @JoinColumn(nullable = false)
     private Period period;
+
+    @Column(nullable = false)
+    private boolean everyToWeeks;
 }
 
