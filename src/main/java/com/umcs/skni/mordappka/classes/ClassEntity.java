@@ -47,6 +47,9 @@ public class ClassEntity {
     @Column(nullable = false)
     private Integer weekday;
 
+    @Column(nullable = false)
+    private boolean every2Weeks;
+
     @ManyToOne
     @JoinColumn(nullable = false)
     private Room room;
