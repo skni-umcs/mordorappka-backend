@@ -2,5 +2,5 @@ databaseChangeLog:
   - include:
       file: db/changelog/changelog-1.yaml
   - include:
-      file: ../migration/update-schema-1.sql
-      relativeToChangelogFile: true
+      file: db/changelog/changelog-2.yaml
+
