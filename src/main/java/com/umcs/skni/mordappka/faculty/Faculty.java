@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table
+@Table(name = "faculties")
 @Setter
 @Getter
 @NoArgsConstructor
@@ -14,8 +14,9 @@ import lombok.*;
 public class Faculty {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "faculty_id")
     private Long facultyId;
 
-    @Column(nullable = false, length = 300)
+    @Column(nullable = false, length = 300, name = "faculty_name")
     private String facultyName;
 }

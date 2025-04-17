@@ -1,312 +1,394 @@
 databaseChangeLog:
   - changeSet:
-      id: 1
-      author: autor
+      id: 1744839040728-1
+      author: filip
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
-
         - createTable:
-            tableName: faculties
             columns:
               - column:
-                  name: faculty_id
-                  type: serial
+                  autoIncrement: true
                   constraints:
+                    nullable: false
                     primaryKey: true
-              - column:
-                  name: faculty_name
-                  type: varchar(300)
-                  constraints:
-                    nullable: false
-
-        - createTable:
-            tableName: periods
-            columns:
-              - column:
-                  name: period_id
-                  type: serial
-                  constraints:
-                    primaryKey: true
-              - column:
-                  name: winter_term
-                  type: boolean
-                  constraints:
-                    nullable: false
-              - column:
-                  name: academic_year
-                  type: varchar(9)
-                  constraints:
-                    nullable: false
-            tableConstraints:
-              - checkConstraint:
-                  constraintName: chk_academic_year_format
-                  checkConstraint: "academic_year ~ '2[0-9]{3}/[0-9]{4}'"
-
-        - createTable:
-            tableName: rooms
-            columns:
-              - column:
-                  name: room_id
-                  type: serial
-                  constraints:
-                    primaryKey: true
-              - column:
-                  name: room_number
-                  type: varchar(10)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: faculty_id
-                  type: integer
-                  constraints:
-                    nullable: false
-              - column:
-                  name: room_address
-                  type: varchar(255)
-              - column:
-                  name: room_capacity
-                  type: integer
-            tableConstraints:
-              - checkConstraint:
-                  constraintName: chk_room_capacity_positive
-                  checkConstraint: room_capacity > 0
-
-        - addForeignKeyConstraint:
-            baseTableName: rooms
-            baseColumnNames: faculty_id
-            referencedTableName: faculties
-            referencedColumnNames: faculty_id
-            constraintName: fk_rooms_faculty
-
-        - createTable:
-            tableName: majors
-            columns:
-              - column:
-                  name: major_id
-                  type: serial
-                  constraints:
-                    primaryKey: true
-              - column:
-                  name: major_name
-                  type: varchar(255)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: major_degree
-                  type: varchar(100)
-              - column:
-                  name: duration_in_sems
-                  type: integer
-              - column:
-                  name: faculty_id
-                  type: integer
-              - column:
-                  name: active
-                  type: boolean
-                  constraints:
-                    nullable: false
-            tableConstraints:
-              - checkConstraint:
-                  constraintName: chk_duration_positive
-                  checkConstraint: duration_in_sems > 0
-
-        - addForeignKeyConstraint:
-            baseTableName: majors
-            baseColumnNames: faculty_id
-            referencedTableName: faculties
-            referencedColumnNames: faculty_id
-            constraintName: fk_majors_faculty
-
-        - createTable:
-            tableName: term_groups
-            columns:
-              - column:
-                  name: term_group_id
-                  type: serial
-                  constraints:
-                    primaryKey: true
-              - column:
-                  name: year
-                  type: integer
-                  constraints:
-                    nullable: false
-              - column:
-                  name: major_id
-                  type: integer
-              - column:
-                  name: period_id
-                  type: integer
-            tableConstraints:
-              - checkConstraint:
-                  constraintName: chk_term_group_year
-                  checkConstraint: "year BETWEEN 1 AND 7"
-
-        - addForeignKeyConstraint:
-            baseTableName: term_groups
-            baseColumnNames: major_id
-            referencedTableName: majors
-            referencedColumnNames: major_id
-            constraintName: fk_term_groups_major
-
-        - addForeignKeyConstraint:
-            baseTableName: term_groups
-            baseColumnNames: period_id
-            referencedTableName: periods
-            referencedColumnNames: period_id
-            constraintName: fk_term_groups_period
-
-        - createTable:
-            tableName: teachers
-            columns:
-              - column:
-                  name: teacher_id
-                  type: serial
-                  constraints:
-                    primaryKey: true
-              - column:
-                  name: teacher_name
-                  type: varchar(300)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: teacher_degree
-                  type: varchar(100)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: faculty_id
-                  type: integer
-                  constraints:
-                    nullable: false
-              - column:
-                  name: active
-                  type: boolean
-
-        - addForeignKeyConstraint:
-            baseTableName: teachers
-            baseColumnNames: faculty_id
-            referencedTableName: faculties
-            referencedColumnNames: faculty_id
-            constraintName: fk_teachers_faculty
-
-        - createTable:
-            tableName: subjects
-            columns:
-              - column:
-                  name: subject_id
-                  type: serial
-                  constraints:
-                    primaryKey: true
-              - column:
-                  name: term_group_id
-                  type: integer
-                  constraints:
-                    nullable: false
-              - column:
-                  name: subject_name
-                  type: varchar(400)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: period_id
-                  type: integer
-
-        - addForeignKeyConstraint:
-            baseTableName: subjects
-            baseColumnNames: term_group_id
-            referencedTableName: term_groups
-            referencedColumnNames: term_group_id
-            constraintName: fk_subjects_term_group
-
-        - addForeignKeyConstraint:
-            baseTableName: subjects
-            baseColumnNames: period_id
-            referencedTableName: periods
-            referencedColumnNames: period_id
-            constraintName: fk_subjects_period
-
-        - createTable:
-            tableName: classes
-            columns:
-              - column:
+                    primaryKeyName: pk_classes
                   name: class_id
-                  type: serial
-                  constraints:
-                    primaryKey: true
+                  type: BIGINT
               - column:
                   name: class_type
-                  type: varchar(100)
+                  type: VARCHAR(255)
               - column:
                   name: subject_id
-                  type: integer
+                  type: BIGINT
               - column:
+                  constraints:
+                    nullable: false
                   name: group_id
-                  type: varchar(50)
+                  type: VARCHAR(50)
+              - column:
                   constraints:
                     nullable: false
-              - column:
                   name: teacher_id
-                  type: integer
+                  type: BIGINT
+              - column:
                   constraints:
                     nullable: false
-              - column:
                   name: start_time
-                  type: time
+                  type: TIME
+              - column:
                   constraints:
                     nullable: false
-              - column:
                   name: end_time
-                  type: time
+                  type: TIME
+              - column:
                   constraints:
                     nullable: false
-              - column:
                   name: break_duration
-                  type: interval
+                  type: BIGINT
+              - column:
                   constraints:
                     nullable: false
-              - column:
                   name: weekday
-                  type: integer
-                  constraints:
-                    nullable: false
+                  type: INT
               - column:
-                  name: room_id
-                  type: integer
                   constraints:
                     nullable: false
+                  name: every_two_weeks
+                  type: BOOLEAN
+              - column:
+                  constraints:
+                    nullable: false
+                  name: room_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: period_id
+                  type: BIGINT
+            tableName: classes
+  - changeSet:
+      id: 1744839040728-2
+      author: filip
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_faculties
+                  name: faculty_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: faculty_name
+                  type: VARCHAR(300)
+            tableName: faculties
+  - changeSet:
+      id: 1744839040728-3
+      author: filip
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_majors
+                  name: major_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: major_name
+                  type: VARCHAR(255)
+              - column:
+                  name: major_degree
+                  type: VARCHAR(255)
+              - column:
+                  name: duration_in_sems
+                  type: INT
+              - column:
+                  name: faculty_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: active
+                  type: BOOLEAN
+            tableName: majors
+  - changeSet:
+      id: 1744839040728-4
+      author: filip
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_periods
+                  name: period_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: winter_term
+                  type: BOOLEAN
+              - column:
+                  constraints:
+                    nullable: false
+                  name: academic_year
+                  type: VARCHAR(9)
+            tableName: periods
+  - changeSet:
+      id: 1744839040728-5
+      author: filip
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_rooms
+                  name: room_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: room_number
+                  type: VARCHAR(10)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: faculty_id
+                  type: BIGINT
+              - column:
+                  name: room_address
+                  type: VARCHAR(255)
+              - column:
+                  name: room_capacity
+                  type: INT
+            tableName: rooms
+  - changeSet:
+      id: 1744839040728-6
+      author: filip
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_subjects
+                  name: subject_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: term_group_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: subject_name
+                  type: VARCHAR(400)
               - column:
                   name: period_id
-                  type: integer
+                  type: BIGINT
+            tableName: subjects
+  - changeSet:
+      id: 1744839040728-7
+      author: filip
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
                   constraints:
                     nullable: false
-            tableConstraints:
-              - checkConstraint:
-                  constraintName: chk_weekday
-                  checkConstraint: "weekday BETWEEN 0 AND 6"
-
+                    primaryKey: true
+                    primaryKeyName: pk_teachers
+                  name: teacher_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: teacher_name
+                  type: VARCHAR(300)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: teacher_degree
+                  type: VARCHAR(100)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: faculty_id
+                  type: BIGINT
+              - column:
+                  name: active
+                  type: BOOLEAN
+            tableName: teachers
+  - changeSet:
+      id: 1744839040728-8
+      author: filip
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_term_groups
+                  name: term_group_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: year
+                  type: INT
+              - column:
+                  name: major_id
+                  type: BIGINT
+              - column:
+                  name: period_id
+                  type: BIGINT
+            tableName: term_groups
+  - changeSet:
+      id: 1744839040728-9
+      author: filip
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
         - addForeignKeyConstraint:
-            baseTableName: classes
-            baseColumnNames: subject_id
-            referencedTableName: subjects
-            referencedColumnNames: subject_id
-            constraintName: fk_classes_subject
-
-        - addForeignKeyConstraint:
-            baseTableName: classes
-            baseColumnNames: teacher_id
-            referencedTableName: teachers
-            referencedColumnNames: teacher_id
-            constraintName: fk_classes_teacher
-
-        - addForeignKeyConstraint:
-            baseTableName: classes
-            baseColumnNames: room_id
-            referencedTableName: rooms
-            referencedColumnNames: room_id
-            constraintName: fk_classes_room
-
-        - addForeignKeyConstraint:
-            baseTableName: classes
             baseColumnNames: period_id
-            referencedTableName: periods
+            baseTableName: classes
+            constraintName: FK_CLASSES_ON_PERIOD
             referencedColumnNames: period_id
-            constraintName: fk_classes_period
+            referencedTableName: periods
+  - changeSet:
+      id: 1744839040728-10
+      author: filip
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: room_id
+            baseTableName: classes
+            constraintName: FK_CLASSES_ON_ROOM
+            referencedColumnNames: room_id
+            referencedTableName: rooms
+  - changeSet:
+      id: 1744839040728-11
+      author: filip
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: subject_id
+            baseTableName: classes
+            constraintName: FK_CLASSES_ON_SUBJECT
+            referencedColumnNames: subject_id
+            referencedTableName: subjects
+  - changeSet:
+      id: 1744839040728-12
+      author: filip
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: teacher_id
+            baseTableName: classes
+            constraintName: FK_CLASSES_ON_TEACHER
+            referencedColumnNames: teacher_id
+            referencedTableName: teachers
+  - changeSet:
+      id: 1744839040728-13
+      author: filip
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: faculty_id
+            baseTableName: majors
+            constraintName: FK_MAJORS_ON_FACULTY
+            referencedColumnNames: faculty_id
+            referencedTableName: faculties
+  - changeSet:
+      id: 1744839040728-14
+      author: filip
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: faculty_id
+            baseTableName: rooms
+            constraintName: FK_ROOMS_ON_FACULTY
+            referencedColumnNames: faculty_id
+            referencedTableName: faculties
+  - changeSet:
+      id: 1744839040728-15
+      author: filip
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: period_id
+            baseTableName: subjects
+            constraintName: FK_SUBJECTS_ON_PERIOD
+            referencedColumnNames: period_id
+            referencedTableName: periods
+  - changeSet:
+      id: 1744839040728-16
+      author: filip
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: term_group_id
+            baseTableName: subjects
+            constraintName: FK_SUBJECTS_ON_TERM_GROUP
+            referencedColumnNames: term_group_id
+            referencedTableName: term_groups
+  - changeSet:
+      id: 1744839040728-17
+      author: filip
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: faculty_id
+            baseTableName: teachers
+            constraintName: FK_TEACHERS_ON_FACULTY
+            referencedColumnNames: faculty_id
+            referencedTableName: faculties
+  - changeSet:
+      id: 1744839040728-18
+      author: filip
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: major_id
+            baseTableName: term_groups
+            constraintName: FK_TERM_GROUPS_ON_MAJOR
+            referencedColumnNames: major_id
+            referencedTableName: majors
+  - changeSet:
+      id: 1744839040728-19
+      author: filip
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: period_id
+            baseTableName: term_groups
+            constraintName: FK_TERM_GROUPS_ON_PERIOD
+            referencedColumnNames: period_id
+            referencedTableName: periods
+

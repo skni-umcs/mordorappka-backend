@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table
+@Table(name = "rooms")
 @Setter
 @Getter
 @NoArgsConstructor
@@ -15,16 +15,19 @@ import lombok.*;
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "room_id")
     private Long roomId;
 
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = 10, name = "room_number")
     private String roomNumber;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(nullable = false, name = "faculty_id")
     private Faculty faculty;
 
+    @Column(name = "room_address")
     private String roomAddress;
 
+    @Column(name = "room_capacity")
     private Integer roomCapacity;
 }
