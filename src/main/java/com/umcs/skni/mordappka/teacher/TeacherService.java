@@ -12,10 +12,9 @@ public class TeacherService {
     private final TeacherRepository teacherRepository;
     private final TeacherMapper teacherMapper;
     public List<TeacherDTO> getAll() {
-        List<TeacherDTO> teachers= ((List<Teacher>) teacherRepository
+        return ((List<Teacher>) teacherRepository
                 .findAll()).stream()
                 .map(teacherMapper::toDTO)
                 .collect(Collectors.toList());
-        return teachers;
     }
 }
