@@ -11,7 +11,7 @@ import java.time.Duration;
 import java.time.LocalTime;
 
 @Entity
-@Table(name = "class")
+@Table(name = "classes")
 @Setter
 @Getter
 @NoArgsConstructor
@@ -21,41 +21,46 @@ import java.time.LocalTime;
 public class ClassEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "class_id")
     private Long classId;
 
+    @Column(name = "class_type")
     private String classType;
 
     @ManyToOne
+    @JoinColumn(name = "subject_id")
     private Subject subject;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 50, name = "group_id")
     private String groupId;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(nullable = false, name = "teacher_id")
     private Teacher teacher;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "start_time")
     private LocalTime startTime;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "end_time")
     private LocalTime endTime;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "break_duration")
     private Duration breakDuration;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "weekday")
     private Integer weekday;
 
-    @Column(nullable = false)
-    private boolean every2Weeks;
+    @Column(nullable = false, name = "every_two_weeks")
+    private boolean everyTwoWeeks;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(nullable = false, name = "room_id")
     private Room room;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(nullable = false, name = "period_id")
     private Period period;
+
+
 }
 

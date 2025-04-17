@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PeriodRepository extends JpaRepository<Period, Long> {
     // Możesz dodawać własne metody np.:
-    Period findByPeriodId(Long id);
+//    Period findByPeriodId(Long id);
 }

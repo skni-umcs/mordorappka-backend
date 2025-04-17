@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table
+@Table(name = "term_groups")
 @Setter
 @Getter
 @NoArgsConstructor
@@ -16,15 +16,18 @@ import lombok.*;
 public class TermGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "term_group_id")
     private Long termGroupId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "year")
     private Integer year;
 
     @ManyToOne
+    @JoinColumn(name = "major_id")
     private Major major;
 
     @ManyToOne
+    @JoinColumn(name = "period_id")
     private Period period;
 }
 
