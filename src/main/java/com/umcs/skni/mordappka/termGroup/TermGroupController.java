@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/termgroup")
+@RequestMapping("/termgroups")
 @RequiredArgsConstructor
 public class TermGroupController {
     private final TermGroupService termGroupService;

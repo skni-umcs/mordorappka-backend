@@ -4,12 +4,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class TeacherService {
     private final TeacherRepository teacherRepository;
-    public List<Teacher> getAll() {
-        return (List<Teacher>) teacherRepository.findAll();
+    private final TeacherMapper teacherMapper;
+    public List<TeacherDTO> getAll() {
+        List<TeacherDTO> teachers= ((List<Teacher>) teacherRepository
+                .findAll()).stream()
+                .map(teacherMapper::toDTO)
+                .collect(Collectors.toList());
+        return teachers;
     }
 }

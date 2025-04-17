@@ -17,8 +17,7 @@ public class TeacherController {
     private final TeacherService teacherService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<Teacher>> getAllTeachers() {
-        // TODO mozna dodać DTO, ale będzie identyczne jak entity
+    public ResponseEntity<List<TeacherDTO>> getAllTeachers() {
         return ResponseEntity.ok(teacherService.getAll());
     }
 }
