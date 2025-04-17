@@ -15,7 +15,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@Tag(name = "Class", description = "zwraca plan zajęc grupując po roku/prowadzącym/sali")
+@Tag(name = "Class", description = "Zwraca plan zajęc grupując po roku/prowadzącym/sali")
 @RequestMapping("/classes")
 public class ClassController {
 
