@@ -10,7 +10,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/period")
+@RequestMapping("/periods")
 @RequiredArgsConstructor
 public class PeriodController {
 

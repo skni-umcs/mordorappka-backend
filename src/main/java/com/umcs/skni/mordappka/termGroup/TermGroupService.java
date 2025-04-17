@@ -10,10 +10,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class TermGroupService {
     private final TermGroupRepository termGroupRepository;
-
+    private final TermGroupMapper termGroupMapper;
     List<TermGroupDTO> findAll() {
         var termGroups = (List<TermGroup>) termGroupRepository.findAll();
-        return termGroups.stream().map(TermGroupDTO::toDTO).collect(Collectors.toList());
+        return termGroups.stream().map(termGroupMapper::toDTO).collect(Collectors.toList());
 
     }
 }

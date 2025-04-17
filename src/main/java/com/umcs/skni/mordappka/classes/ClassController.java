@@ -13,13 +13,13 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/class")
+@RequestMapping("/classes")
 public class ClassController {
 
     private final ClassService classService;
 
     @GetMapping("/year")
-    public ResponseEntity<List<ClassDTO>> getClassesByYear(@RequestParam Long id) {
+    public ResponseEntity<List<ClassDTO>> getClassesByYear(@RequestParam final Long id) {
         return ResponseEntity.ok(classService.getClassesByYearId(id));
     }
 }
