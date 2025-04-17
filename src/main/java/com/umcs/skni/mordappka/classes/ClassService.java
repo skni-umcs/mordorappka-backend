@@ -10,10 +10,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ClassService {
     private final ClassRepository classRepository;
-
+    private final ClassMapper classMapper;
     List<ClassDTO> getClassesByYearId(Long id){
         List<ClassEntity> classes = classRepository.findByPeriod_PeriodId(id);
 
-        return classes.stream().map(ClassDTO::mapFromEntity).collect(Collectors.toList());
+        return classes.stream().map(classMapper::toDTO).collect(Collectors.toList());
     }
 }
