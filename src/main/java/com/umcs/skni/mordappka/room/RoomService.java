@@ -9,9 +9,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RoomService {
     private final RoomRepository roomRepository;
-
-    List<Room> getAll(){
-        return roomRepository.findAll();
+    private final RoomMapper roomMapper;
+    List<RoomDTO> getAll(){
+        return (List<RoomDTO>) roomRepository.findAll().stream().map(roomMapper::toDTO).toList();
     }
 
 }

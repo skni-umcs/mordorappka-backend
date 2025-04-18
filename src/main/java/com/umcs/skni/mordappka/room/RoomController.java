@@ -20,7 +20,7 @@ public class RoomController {
 
     @GetMapping("/all")
     @Operation(summary = "All rooms", description = "Zwraca wszystkie sale na uczelni")
-    public ResponseEntity<List<Room>> getAllRooms() {
+    public ResponseEntity<List<RoomDTO>> getAllRooms() {
         return ResponseEntity.ok(roomService.getAll());
     }
 }
