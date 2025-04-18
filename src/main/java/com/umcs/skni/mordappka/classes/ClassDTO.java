@@ -8,6 +8,8 @@ public record ClassDTO(
         String startTime,
         String endTime,
         int weekday,
-        String roomName,
-        String periodName
+        String roomNumber,
+        Long teacherId,
+        Long roomId,
+        String group
 ){}

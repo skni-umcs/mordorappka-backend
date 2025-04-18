@@ -11,9 +11,9 @@ import java.util.stream.Collectors;
 public class ClassService {
     private final ClassRepository classRepository;
     private final ClassMapper classMapper;
-    List<ClassDTO> getClassesByYearId(Long id){
-        List<ClassEntity> classes = classRepository.findByPeriod_PeriodId(id);
-
+    List<ClassDTO> getClassesByYearId(Long termGroupId){
+        List<ClassEntity> classes = classRepository.findByTermGroup_TermGroupId(termGroupId);
         return classes.stream().map(classMapper::toDTO).collect(Collectors.toList());
+//        return classes;
     }
 }
