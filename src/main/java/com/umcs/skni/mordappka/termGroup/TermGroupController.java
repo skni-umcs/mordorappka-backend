@@ -16,8 +16,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TermGroupController {
     private final TermGroupService termGroupService;
+
+    @GetMapping("/active")
+    @Operation(summary = "Active TermGroups", description = "zwraca wszystkie aktywne kierunki np.: inf2 lato 2024/2025")
+    public ResponseEntity<List<TermGroupDTO>> findActive() {
+        return ResponseEntity.ok(termGroupService.findActive());
+    }
     @GetMapping("/all")
-    @Operation(summary = "All TermGroups", description = "zwraca wszystkie obecne kierunki")
+    @Operation(summary = "Active TermGroups", description = "zwraca wszystkie (w tym historyczne) kierunki np.: inf2 lato 2021/2022")
     public ResponseEntity<List<TermGroupDTO>> findAll() {
         return ResponseEntity.ok(termGroupService.findAll());
     }
