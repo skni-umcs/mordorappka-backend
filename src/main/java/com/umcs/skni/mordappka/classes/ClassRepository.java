@@ -7,5 +7,5 @@ import java.util.List;
 
 @Repository
 public interface ClassRepository extends JpaRepository<ClassEntity, Long> {
-    List<ClassEntity> findByPeriod_PeriodId(Long id);
+    List<ClassEntity> findByTermGroup_TermGroupId(Long id);
 }

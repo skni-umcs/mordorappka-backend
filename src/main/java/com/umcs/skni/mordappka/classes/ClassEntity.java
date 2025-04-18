@@ -4,6 +4,7 @@ import com.umcs.skni.mordappka.period.Period;
 import com.umcs.skni.mordappka.room.Room;
 import com.umcs.skni.mordappka.subject.Subject;
 import com.umcs.skni.mordappka.teacher.Teacher;
+import com.umcs.skni.mordappka.termGroup.TermGroup;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -57,9 +58,13 @@ public class ClassEntity {
     @JoinColumn(nullable = false, name = "room_id")
     private Room room;
 
+//    @ManyToOne
+//    @JoinColumn(nullable = false, name = "period_id")
+//    private Period period;
+
     @ManyToOne
-    @JoinColumn(nullable = false, name = "period_id")
-    private Period period;
+    @JoinColumn(nullable = false, name = "term_group_id")
+    private TermGroup termGroup;
 
 
 }
