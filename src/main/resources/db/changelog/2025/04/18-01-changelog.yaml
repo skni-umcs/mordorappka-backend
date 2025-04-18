@@ -1,0 +1,48 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1744965814701-4
+      author: Bartlomiej
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - dropForeignKeyConstraint:
+            baseTableName: classes
+            constraintName: fk_classes_on_period
+  - changeSet:
+      id: 1744965814701-1
+      author: Bartlomiej
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: term_group_id
+                  type: BIGINT
+            tableName: classes
+  - changeSet:
+      id: 1744965814701-2
+      author: Bartlomiej
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addNotNullConstraint:
+            columnName: term_group_id
+            tableName: classes
+  - changeSet:
+      id: 1744965814701-3
+      author: Bartlomiej
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: term_group_id
+            baseTableName: classes
+            constraintName: FK_CLASSES_ON_TERM_GROUP
+            referencedColumnNames: term_group_id
+            referencedTableName: term_groups
+  - changeSet:
+      id: 1744965814701-5
+      author: Bartlomiej
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - dropColumn:
+            columnName: period_id
+            tableName: classes
+
