@@ -1,0 +1,31 @@
+services:
+  - name: docker:24.0-dind
+    alias: docker
+
+stages:
+  - build-jar
+  - build-docker
+
+build-to-jar:
+  stage: build-jar
+  image: maven:latest
+  script:
+    - mvn clean package -DskipTests
+  artifacts:
+    paths:
+      - target/*.jar
+
+docker-build:
+  stage: build-docker
+  image: docker:latest
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA .
+    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA $CI_REGISTRY_IMAGE:latest
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+    - docker push $CI_REGISTRY_IMAGE:latest
+  only:
+    - main
+    - docker
+  dependencies:
+    - build-to-jar
