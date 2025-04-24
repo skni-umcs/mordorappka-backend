@@ -1,9 +1,13 @@
-stages:
-  - build
-  - docker
+services:
+  - name: docker:24.0-dind
+    alias: docker
 
-build:
-  stage: build
+stages:
+  - build-jar
+  - build-docker
+
+build-to-jar:
+  stage: build-jar
   image: maven:latest
   script:
     - mvn clean package -DskipTests
@@ -12,7 +16,7 @@ build:
       - target/*.jar
 
 docker-build:
-  stage: docker
+  stage: build-docker
   image: docker:latest
   script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
@@ -21,6 +25,5 @@ docker-build:
   only:
     - main
     - docker
-
   dependencies:
-    - build
+    - build-jar
