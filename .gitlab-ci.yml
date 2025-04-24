@@ -26,4 +26,4 @@ docker-build:
     - main
     - docker
   dependencies:
-    - build-jar
+    - build-to-jar
