@@ -1,4 +1,4 @@
-image: maven:3-jdk-24
+image: maven:3-jdk-21
 
 services:
   - docker:dind
