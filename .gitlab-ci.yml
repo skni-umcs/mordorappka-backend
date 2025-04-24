@@ -1,16 +1,10 @@
-services:
-  - docker:dind
-
-variables:
-  DOCKER_DRIVER: overlay2
-  SPRING_PROFILES_ACTIVE: gitlab-ci
-
 stages:
   - build
   - docker
 
 build:
   stage: build
+  image: maven:latest
   script:
     - mvn clean package -DskipTests
   artifacts:
