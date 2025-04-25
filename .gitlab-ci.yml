@@ -50,13 +50,7 @@ deploy:
         docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA &&
         docker stop mordappka_backend || true &&
         docker rm mordappka_backend || true &&
-        docker run -d -p 8081:5000 -e DATABASE_PORT=$DATABASE_PORT \
-         -e DATABASE_NAME=$DB_NAME \
-         -e DATABASE_USERNAME=$DB_USERNAME \
-         -e DATABASE_PASSWD=$DB_PASSWORD \
-         -e DATABASE_IP=$DB_IP \
-         -e DATABASE_PORT=$DB_PORT \
-         --name mordappka_backend $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+        docker run -d -p 8081:5000 -e DATABASE_PORT=$DATABASE_PORT -e DATABASE_NAME=$DB_NAME -e DATABASE_USERNAME=$DB_USERNAME -e DATABASE_PASSWD=$DB_PASSWORD -e DATABASE_IP=$DB_IP -e DATABASE_PORT=$DB_PORT --name mordappka_backend $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
       "
   only:
     - main
