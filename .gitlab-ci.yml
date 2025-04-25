@@ -48,9 +48,9 @@ deploy:
     - ssh -o StrictHostKeyChecking=accept-new $DEPLOY_USER@$DEPLOY_SERVER "
         docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY &&
         docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA &&
-        docker stop mordappka_web || true &&
-        docker rm mordappka_web || true &&
-        docker run -d -p 8080:80 --name mordappka_web $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+        docker stop mordappka_backend || true &&
+        docker rm mordappka_backend || true &&
+        docker run -d -p 8081:5000 --name mordappka_backend $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
       "
   only:
     - main
