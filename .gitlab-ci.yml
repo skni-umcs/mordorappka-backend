@@ -5,6 +5,7 @@ services:
 stages:
   - build-jar
   - build-docker
+  - deploy
 
 build-to-jar:
   stage: build-jar
